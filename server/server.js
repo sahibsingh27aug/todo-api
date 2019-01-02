@@ -46,11 +46,26 @@ app.get('/todos/:id', (req, res) => {
             return res.status(404).send();
         }
         res.send({todo});
-    }, (e) => {
-        res.status(404).send()
+    }).catch((e) => {
+        res.status(400).send()
     });
 
-    
+    app.delete('/todos/:id', (req, res) => {
+        var id = req.params.id;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(404).send();
+        }
+
+        Todo.findByIdAndRemove(id).then((todo) => {
+            if(!todo) {
+                return res.status(404).send();
+            }
+            res.send(todo);
+        }).catch((e) => {
+            res.status(400).send();
+        });
+    });
 
     
 
@@ -69,6 +84,6 @@ module.exports = {app};
 
 1. Body Parser: Convert your JSON Data to Object and attach it to the req object
 
-// mongodb://sahib:sahib123@ds145484.mlab.com:45484/todos_node
+// MONGODB_URI = mongodb://sahib:sahib123@ds145484.mlab.com:45484/todos_node
 
 */
