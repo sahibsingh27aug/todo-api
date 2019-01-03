@@ -136,7 +136,7 @@ describe("DELETE /todos/:id", () => {
 
     it("Should return 404, if object id is invalid", (done) => {
         request(app)
-            .get('/todos/123abc')
+            .delete('/todos/123abc')
             .expect(404)
             .end(done);
     });
