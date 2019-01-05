@@ -51,7 +51,17 @@ var UserSchema = new mongoose.Schema({
         return user.save().then(() => {
             return token;
         });
-    };  
+    };
+    
+    UserSchema.methods.removeToken = function (token) {
+        var user = this;
+
+        return user.update({
+            $pull: {
+                tokens: {token}
+            }
+        });
+    };
 
     UserSchema.statics.findByToken = function (token) {     // To crete a "Model Method" ( w/c we can use further )
         var User = this;
